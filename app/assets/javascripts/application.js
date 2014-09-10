@@ -10,6 +10,8 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require jquery
-//= require jquery_ujs
+
+//= require jquery.noty.packaged.min
 //= require_tree .
+
+var pusher = new Pusher('5df5ad50ceda89068e0b');

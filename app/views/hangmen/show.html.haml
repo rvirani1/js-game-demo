@@ -1,3 +1,25 @@
+-# Modal for solve
+.modal.fade#solveModal(tabindex="1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" )
+  .modal-dialog.modal-sm
+    .modal-content
+      .panel
+        .panel-heading
+          %h3 The Answer!
+        .panel-body
+          The answer was
+          %span.answertext
+
+-# Modal for hint
+.modal.fade#hintModal(tabindex="1" role="dialog" )
+  .modal-dialog.modal-sm
+    .modal-content
+      .panel
+        .panel-heading
+          %h3 Your Hint!
+        .panel-body
+          One of the missing letters is:
+          %span.hinttext
+
 %pre= @hangman.board
 
 %h5 Guessed
@@ -17,3 +39,6 @@
   = form_tag hangman_path(@hangman), method: :patch do
     %input{ name: "guess", length: 1, autofocus: true }
     %button.btn.btn-primary Guess
+-unless @hangman.finished?
+  %button.btn.btn-primary.hint-button(data-toggle="modal") Get a Hint
+  %button.btn.btn-primary.solve-button(data-toggle="modal") Solve Puzzle

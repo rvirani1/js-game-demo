@@ -1,71 +1,40 @@
 .btn-group.type-filter
+  %button.btn.btn-default All
   %button.btn.btn-default Won
   %button.btn.btn-default Lost
   %button.btn.btn-default Playing
 
-%table.table.table-striped
+%table.table.table-striped.hangman-table
   %thead
     %tr
       %th
+      %th.filter(data-col="1")
+        .filter_type State
+        %span.pull-right.glyphicon.glyphicon-chevron-down
       %th Board
+      %th.filter(data-col="3") Percent
       %th Misses
+      %th Challenger
   %tbody
     - @hangmen.each do |game|
       %tr{ class: row_status_class(game) }
         %td
           - if game.finished?
             = link_to 'View', game, class: 'btn btn-default'
-          - else
+          - elsif show_play?(game)
             = link_to 'Play', game, class: 'btn btn-primary'
+        %td= game.state
         %td= game.board
+        %td= number_to_percentage(game.percent_completed, precision: 0)
         %td
           = "#{game.misses}/#{game.max_misses}"
           - if game.won?
             %span.label.label-success Won
           - elsif game.lost?
             %span.label.label-danger Lost
+        %td= show_challenger(game) if game.challenged_user
     %tr
       %td{ colspan: 3 }
         = link_to 'New Game', hangmen_path, method: :post, class: 'btn btn-success btn-large'
 
-/ v is a HAML helper for inlining javascript
-:javascript
-  // This would be available globally
-  //function filter_rows_global(row_type) { console.log("here"); }
 
-  // Run this function only once document is entirely loaded
-  $(function() {
-    // All of this text is inserted _unprocessed_ into a script tag
-
-    var filter_rows = function(row_type) {
-      $('tbody tr').hide();
-      if (row_type === "Won") {
-        $('tr.won').show();
-      } else if (row_type === "Lost") {
-        $('tr.lost').show();
-      } else {
-        $('tr.playing').show();
-      }
-    }
-
-    filter_rows("Playing");
-
-    // a button inside a node with class type-filter
-    // button.btn-group would select a button with class btn-group
-    $('.type-filter button').click(function(e) {
-      //console.log("e is:", e);
-
-      //alert("Clicked");
-      // this is the node that was clicked on
-
-      // show us what we clicked on
-      // console.log(this);
-      // console.log("button text is: ", this);
-      // console.log("button text is " + this);
-
-      // grab contents of node
-      // console.log(this.innerHTML);   // raw javascript
-      // console.log( $(this).text() ); // jQuery
-      filter_rows( $(this).text() );
-    });
-  });

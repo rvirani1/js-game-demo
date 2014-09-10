@@ -4,13 +4,18 @@
     %title
     = stylesheet_link_tag "//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"
     = stylesheet_link_tag "//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"
+    = stylesheet_link_tag "//cdnjs.cloudflare.com/ajax/libs/foundation/5.3.3/css/foundation.min.css"
     = stylesheet_link_tag 'application', media: 'all'
 
-    = javascript_include_tag "//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"
+    = javascript_include_tag "//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"
     = javascript_include_tag "//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"
+    = javascript_include_tag "//js.pusher.com/2.2/pusher.min.js"
+    = javascript_include_tag "//ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"
+
     = javascript_include_tag 'application'
 
     = csrf_meta_tags
+    = include_gon
 
   %body
     %nav.navbar.navbar-default
@@ -21,6 +26,7 @@
         %ul.nav.navbar-nav
           / Main links will go here
           %li= link_to "Hangman", hangmen_path
+          %li= link_to "Challenge", new_challenge_path
 
         %ul.nav.navbar-nav.pull-right
           - if current_user

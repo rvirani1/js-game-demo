@@ -5,4 +5,10 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :hangmen
+  has_many :challenged_games, class_name: "Hangman", foreign_key: "challenged_id"
+
+  def all_games
+    self.hangmen | self.challenged_games
+  end
+
 end

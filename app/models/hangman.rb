@@ -18,6 +18,7 @@ class Hangman < ActiveRecord::Base
 
   belongs_to :user
 
+
   validates_presence_of :user, :answer, :max_misses, :misses
 
   def guessed_not_nil
@@ -60,5 +61,31 @@ class Hangman < ActiveRecord::Base
 
   def lost?
     misses == max_misses
+  end
+
+  def state
+    if won?
+      "Won"
+    elsif lost?
+      "Lost"
+    else
+      "Playing"
+    end
+  end
+
+  def percent_completed
+    (misses.to_f / max_misses) * 100
+  end
+
+  def challenged_user
+    self.challenged_id ? User.find(self.challenged_id) : nil
+  end
+
+  def solve_puzzle
+    self.misses = self.max_misses
+    self.save!
+  end
+  def hint
+    self.answer.split("").sample()
   end
 end
